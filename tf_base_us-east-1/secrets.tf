@@ -1,6 +1,15 @@
 
+resource "random_string" "ssh_key_random_name_append" {
+  length  = 4
+  special = false
+  lower   = true
+  number  = true
+  upper   = false
+}
+
+
 resource "aws_secretsmanager_secret" "ssh_private_key" {
-  name = "ssh_private_key"
+  name        = "ssh_private_key_${random_string.ssh_key_random_name_append.result}"
   description = "This is meant to be a team-accessible key, not belonging to any one person."
 }
 resource "aws_secretsmanager_secret_version" "ssh_private_key" {
@@ -17,7 +26,7 @@ output "ssh_private_key_id" {
 
 
 resource "aws_secretsmanager_secret" "ssh_public_key" {
-  name = "ssh_public_key"
+  name        = "ssh_public_key_${random_string.ssh_key_random_name_append.result}"
   description = "This is meant to be a team-accessible key, not belonging to any one person."
 }
 resource "aws_secretsmanager_secret_version" "ssh_public_key" {

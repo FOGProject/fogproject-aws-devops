@@ -2,7 +2,6 @@ resource "aws_s3_bucket" "log_bucket" {
   bucket = "logging-${var.region}-${data.aws_caller_identity.current.account_id}"
   tags = {
     Name    = "logging-${var.region}-${data.aws_caller_identity.current.account_id}"
-    project = "common"
   }
 }
 resource "aws_s3_bucket_server_side_encryption_configuration" "log_bucket" {

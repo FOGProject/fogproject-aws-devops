@@ -1,9 +1,13 @@
+locals {
+  vpc_name = var.project
+}
+
 resource "aws_vpc" "vpc" {
   cidr_block           = "10.0.0.0/16"
   enable_dns_hostnames = true
   enable_dns_support   = true
   tags = {
-    Name = "${var.project}-vpc"
+    Name = local.vpc_name
   }
 }
 
@@ -12,7 +16,7 @@ resource "aws_subnet" "public_subnet_a" {
   cidr_block        = "10.0.0.0/24"
   availability_zone = "${var.region}a"
   tags = {
-    Name = "${var.project}-public-subnet-a"
+    Name = "${local.vpc_name}-public-subnet-a"
   }
 }
 
@@ -36,7 +40,7 @@ resource "aws_route_table" "public_route_table" {
     gateway_id = aws_internet_gateway.internet-gateway.id
   }
   tags = {
-    Name = "${var.project}-public-routes"
+    Name = "${local.vpc_name}-public-routes"
   }
 }
 
@@ -48,12 +52,12 @@ resource "aws_route_table_association" "public-route-table-association" {
 resource "aws_internet_gateway" "internet-gateway" {
   vpc_id = aws_vpc.vpc.id
   tags = {
-    Name = "${var.project}-internet-gateway"
+    Name = "${local.vpc_name}-internet-gateway"
   }
 }
 
 resource "aws_security_group" "ssh_from_anywhere" {
-  name        = "ssh_from_anywhere"
+  name        = "${local.vpc_name}_ssh_from_anywhere"
   description = "Allow all inbound SSH - use cautiously."
   vpc_id      = aws_vpc.vpc.id
   ingress {
@@ -63,12 +67,12 @@ resource "aws_security_group" "ssh_from_anywhere" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   tags = {
-    Name = "${var.project}_ssh_from_anywhere"
+    Name = "${local.vpc_name}_ssh_from_anywhere"
   }
 }
 
 resource "aws_security_group" "internet_connectivity" {
-  name        = "internet_connectivity"
+  name        = "${local.vpc_name}_internet_connectivity"
   description = "This allows dns, http, and https."
   vpc_id      = aws_vpc.vpc.id
   egress {
@@ -99,10 +103,8 @@ resource "aws_security_group" "internet_connectivity" {
     cidr_blocks = ["0.0.0.0/0"]
     description = "https to everywhere"
   }
-
-
   tags = {
-    Name = "${var.project}-ssh"
+    Name = "${local.vpc_name}_internet_connectivity"
   }
 }
 
