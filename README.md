@@ -16,6 +16,25 @@ All Terraform projects within this repository should include a `versions.tf` fil
 
 ## AWS Resource Naming Standards
 
+All Terraform resource names should use snake_case, and all AWS resource names should use snake_case wherever possible. Variables and locals used to populate names dynamically should all use snake_case, and where resources utilize these variables and locals while also needing hyphens instead of underscores, string replace should be used for that resource name. Below is an example of this for a Route53 record. This is to reduce the effort required when changing a name within a project. A name change should only need to occur in one variable, or one locals, or one tfvars file, rather than needing changed in many places.
+
+```
+locals {
+  project_name = "awesome_project_name"
+}
+
+resource "aws_route53_record" "subdomain_example" {
+  zone_id = aws_route53_zone.primary.zone_id
+  name    = "${replace(local.project_name, "_", "-")}.fogproject.us"
+  type    = "A"
+  ttl     = "300"
+  records = [aws_eip.lb.public_ip]
+}
+```
+
+NOTE: directly defining names that require hyphens is fine too, as long as the components of the name are paramaterized. Such as S3 bucket names. See the example below showing this.
+
+
 For resources that have global names (such as S3 buckets), the resource name should be should include the AWS Account ID (via data source), and the region name. 
 
 For resources that have account-wide names (such as IAM resources), the region name should be included.
@@ -101,7 +120,9 @@ Secret population is the responsibility of FOG Project. Written instructions for
 All Terraform submitted should have passed a tflint test:
 https://github.com/terraform-linters/tflint 
 
-tflint should not find any warnings or errors for newly submitted Terraform code.
+tflint should not give any warnings or errors for newly submitted Terraform code.
+
+The standards in this readme should be adhered to, and best practices used where the readme defines none.
 
 Pull requests should be submitted to the `main` branch for consideration. After code review is completed, tflint validation completed, terraform plan validation completed, and a successful apply is performed using your branch, and possibly after other considerations are met, the pull request is merged. All code submissions must accept this repository's LICENSE file.
 

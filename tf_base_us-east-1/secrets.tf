@@ -19,9 +19,6 @@ resource "aws_secretsmanager_secret_version" "ssh_private_key" {
     ignore_changes = [secret_string]
   }
 }
-output "ssh_private_key_id" {
-  value = aws_secretsmanager_secret.ssh_private_key.id
-}
 
 
 
@@ -36,6 +33,13 @@ resource "aws_secretsmanager_secret_version" "ssh_public_key" {
     ignore_changes = [secret_string]
   }
 }
-output "ssh_public_key_id" {
-  value = aws_secretsmanager_secret.ssh_public_key.id
+data "aws_secretsmanager_secret_version" "ssh_public_key" {
+  secret_id = aws_secretsmanager_secret.ssh_public_key.id
+}
+resource "aws_key_pair" "ssh_public_key" {
+  key_name   = "ssh_public_key_${random_string.ssh_key_random_name_append.result}"
+  public_key = data.aws_secretsmanager_secret_version.ssh_public_key.secret_string
+}
+output "ssh_public_key_name" {
+  value = aws_key_pair.ssh_public_key.key_name
 }
