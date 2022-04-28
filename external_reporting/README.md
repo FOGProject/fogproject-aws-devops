@@ -1,6 +1,6 @@
 ### Author: Wayne Workman
 ---
-This project is subject to the terms of the FOG Community Scripts license, found at the base of this repository.
+This project is subject to the terms of the repository license. 
 
 "external_reporting" is a small project collects version information reported by FOG systems. You will find the Terraform here that creates the infrastructure as well as provisions the application used to collect the data.
 
