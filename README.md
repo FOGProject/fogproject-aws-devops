@@ -35,7 +35,7 @@ resource "aws_route53_record" "subdomain_example" {
 NOTE: directly defining names that require hyphens is fine too, as long as the components of the name are paramaterized. Such as S3 bucket names. See the example below showing this.
 
 
-For resources that have global names (such as S3 buckets), the resource name should be should include the AWS Account ID (via data source), and the region name. 
+For resources that have global names (such as S3 buckets), the resource name should include the AWS Account ID (via data source), and the region name. 
 
 For resources that have account-wide names (such as IAM resources), the region name should be included.
 
