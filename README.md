@@ -108,6 +108,40 @@ provider "aws" {
 
 Please be aware of the known issues with provider default tags, and avoid them: https://support.hashicorp.com/hc/en-us/articles/4406026108435-Known-issues-with-default-tags-in-the-Terraform-AWS-Provider 
 
+## Avoid hard-coding IDs, use region's remote state file outputs.
+
+The common region's state file contains outputs which may be useful to your Terraform stack. Such as vpc_id, vpc_cidr, subnet IDs, security group IDs, an ec2 keypair name, and possibly other things. You can reference these values from the remote state file (avoiding hard-codiing them). Below is an example of creating an instance using outputs from the common region's state file.
+
+```
+provider "aws" {
+  region = var.region
+}
+
+variable "region" {
+  type    = string
+  default = "us-east-1"
+}
+
+data "terraform_remote_state" "base" {
+  backend = "s3"
+  config = {
+    bucket = "terraform-remote-state-158698670377"
+    key    = "common/tf_base_${var.region}.json"
+    region = "us-east-1"
+  }
+}
+
+resource "aws_instance" "web" {
+  ami           = data.aws_ami.ubuntu.id
+  instance_type = "t3.micro"
+  key_name = data.terraform_remote_state.base.outputs.ssh_public_key_name
+  subnet_id = data.terraform_remote_state.base.outputs.public_subnet_a
+  vpc_security_group_ids = [data.terraform_remote_state.base.outputs.sg_internet_connectivity]
+}
+
+```
+
+
 ## Secrets
 
 Secrets in code are absolutely prohibited. If the Terraform or automation needs secrets, Secrets Manager resources should be used to house the secret, and other various automation can be used to access the secret value as needed.
