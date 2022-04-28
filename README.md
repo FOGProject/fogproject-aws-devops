@@ -1,4 +1,4 @@
-# README
+# Introduction
 
 This repository represents FOG Project's AWS account completely as code. The Infrastructure-as-code language used is Terraform. Automation that exists in this account is also housed here.
 
