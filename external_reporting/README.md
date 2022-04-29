@@ -15,7 +15,7 @@ To run without the Terraform, you'll find an installer within the application th
 
 Using terminal on the reporting API instance (ssh or session manager), copy the latest DB backup from s3:
 
-`aws s3 cp s3://fog-external-reporting-results.theworkmans.us/db.tar.gz .`
+`aws s3 cp s3://fog-external-reporting-results.fogproject.us/db.tar.gz .`
 
 Unpack the tar file:
 `tar -xf db.tar.gz`

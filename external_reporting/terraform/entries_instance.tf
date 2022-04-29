@@ -28,8 +28,8 @@ resource "aws_instance" "instance" {
 apt-get update
 apt-get -y dist-upgrade
 apt-get -y install git
-git clone https://github.com/wayneworkman/fog-community-scripts.git
-cd fog-community-scripts/external_reporting/external_reporting
+git clone https://github.com/FOGProject/fogproject-aws-devops.git
+cd fogproject-aws-devops/external_reporting/external_reporting
 # install server software.
 bash setup.sh
 # Replace s3 arn in settings file.
