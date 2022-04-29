@@ -102,12 +102,6 @@ resource "aws_security_group" "sg" {
     protocol = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  egress {
-    from_port = 123
-    to_port = 123
-    protocol = "udp"
-    cidr_blocks = ["169.254.169.123/32"]
-  }
   tags = {
     Name = var.entries_name
   }

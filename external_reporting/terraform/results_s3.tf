@@ -54,7 +54,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "results_bucket" {
 resource "aws_s3_bucket_versioning" "results_bucket" {
   bucket = aws_s3_bucket.results_bucket.id
   versioning_configuration {
-    status = "Disabled"
+    status = "Suspended"
   }
 }
 resource "aws_s3_bucket_acl" "results_bucket" {
