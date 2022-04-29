@@ -15,3 +15,18 @@ provider "aws" {
     }
   }
 }
+
+
+# using data rather than hard-coding the ID to keep it out of revision control.
+data "aws_route53_zone" "selected" {
+  name         = "fogproject.us."
+  private_zone = false
+}
+
+output "zone_name" {
+  value = data.aws_route53_zone.selected.name
+}
+
+output "zone_id" {
+  value = data.aws_route53_zone.selected.zone_id
+}
