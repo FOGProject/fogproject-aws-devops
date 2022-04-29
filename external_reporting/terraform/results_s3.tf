@@ -92,6 +92,11 @@ resource "aws_s3_bucket_policy" "results_bucket" {
 }
 POLICY
 }
+resource "aws_s3_bucket_logging" "results_bucket" {
+  bucket        = aws_s3_bucket.results_bucket.id
+  target_bucket = data.terraform_remote_state.base.outputs.log_bucket
+  target_prefix = "s3/${aws_s3_bucket.results_bucket.id}"
+}
 
 
 
