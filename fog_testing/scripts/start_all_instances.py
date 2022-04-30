@@ -3,8 +3,7 @@
 
 from functions import *
 
-
-start_instances()
+start_instances(wait_for_them=False)
 
 
 
