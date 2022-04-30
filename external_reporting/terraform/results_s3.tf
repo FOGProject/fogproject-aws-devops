@@ -6,32 +6,8 @@ provider "aws" {
 
 resource "aws_acm_certificate" "results_cert" {
   domain_name = "${var.results_name}.${data.terraform_remote_state.base.outputs.zone_name}"
-#  subject_alternative_names = ["stats.fogproject.org"]
+  subject_alternative_names = ["fog-external-reporting-results.theworkmans.us"]
   validation_method = "DNS"
-  provider = aws.virginia
-}
-
-
-resource "aws_route53_record" "results_cert" {
-  for_each = {
-    for dvo in aws_acm_certificate.results_cert.domain_validation_options : dvo.domain_name => {
-      name   = dvo.resource_record_name
-      record = dvo.resource_record_value
-      type   = dvo.resource_record_type
-    }
-  }
-  allow_overwrite = true
-  name            = each.value.name
-  records         = [each.value.record]
-  ttl             = 60
-  type            = each.value.type
-  zone_id         = data.terraform_remote_state.base.outputs.zone_id
-}
-
-resource "aws_acm_certificate_validation" "results_cert" {
-  depends_on = [aws_route53_record.results_cert]
-  certificate_arn = aws_acm_certificate.results_cert.arn
-  validation_record_fqdns = [for record in aws_route53_record.results_cert : record.fqdn]
   provider = aws.virginia
 }
 
@@ -126,7 +102,7 @@ resource "aws_cloudfront_origin_access_identity" "origin_access_identity" {
 
 
 resource "aws_cloudfront_distribution" "s3_distribution" {
-  depends_on = [aws_acm_certificate_validation.results_cert]
+  #depends_on = [aws_acm_certificate_validation.results_cert]
   origin {
     domain_name = aws_s3_bucket.results_bucket.bucket_regional_domain_name
     origin_id   = local.s3_origin_id
