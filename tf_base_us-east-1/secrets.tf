@@ -19,6 +19,9 @@ resource "aws_secretsmanager_secret_version" "ssh_private_key" {
     ignore_changes = [secret_string]
   }
 }
+output "ssh_private_key_arn" {
+  value = aws_secretsmanager_secret.ssh_private_key.arn
+}
 
 
 

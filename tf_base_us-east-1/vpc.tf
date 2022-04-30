@@ -118,6 +118,10 @@ output "vpc_cidr" {
   value = aws_vpc.vpc.cidr_block
 }
 
+output "vpc_name" {
+  value = local.vpc_name
+}
+
 output "public_subnet_a" {
   value = aws_subnet.public_subnet_a.id
 }
@@ -129,4 +133,3 @@ output "sg_ssh_from_anywhere" {
 output "sg_internet_connectivity" {
   value = aws_security_group.internet_connectivity.id
 }
-
