@@ -121,7 +121,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   default_root_object = "index.html"
 
   #  aliases = ["${var.results_name}.${data.terraform_remote_state.base.outputs.zone_name}","stats.fogproject.org"]
-  aliases = ["${var.project}.${data.terraform_remote_state.base.outputs.zone_name}"]
+  aliases = ["${var.project}.${data.terraform_remote_state.base.outputs.zone_name}", "fogtesting.theworkmans.us"]
 
   default_cache_behavior {
     allowed_methods  = ["GET", "HEAD", "OPTIONS"]
