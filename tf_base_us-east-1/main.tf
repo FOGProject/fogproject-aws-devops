@@ -30,3 +30,8 @@ output "zone_name" {
 output "zone_id" {
   value = data.aws_route53_zone.selected.zone_id
 }
+
+
+module "keep_instances_on" {
+    source = "../modules/keep_instances_on"
+}

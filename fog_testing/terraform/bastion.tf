@@ -19,6 +19,7 @@ resource "aws_instance" "bastion" {
 
   tags = {
     Name = "${var.project}-bastion"
+    keep-instance-running = "true"
   }
   lifecycle {
     ignore_changes = [

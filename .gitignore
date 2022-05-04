@@ -9,6 +9,8 @@
 */.terraform.lock.hcl
 .terraform.lock.hcl
 
+**/keep-instances-running.zip
+
 # Crash log files
 crash.log
 
