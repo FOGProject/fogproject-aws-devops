@@ -37,6 +37,14 @@ sed -i 's/S3_BUCKET_NAME_HERE/${aws_s3_bucket.results_bucket.id}/' /opt/external
 # Setup HTTPS using certbot silently.
 apt-get -y install certbot python-certbot-apache
 certbot --no-eff-email --redirect --agree-tos -w /var/www/html -d ${var.entries_name}.${data.terraform_remote_state.base.outputs.zone_name} -m ${var.letsencrypt_email}
+
+# Setup post cert renewal actions.
+cat <<EOF > /etc/letsencrypt/renewal-hooks/post/reboot.sh
+#!/bin/bash
+reboot
+EOF
+chmod +x /etc/letsencrypt/renewal-hooks/post/reboot.sh
+
 # Cleanup stuff we don't need anymore.
 apt-get -y autoclean
 apt-get -y autoremove
