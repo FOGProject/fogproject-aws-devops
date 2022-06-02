@@ -6,7 +6,7 @@ resource "aws_instance" "bastion" {
   vpc_security_group_ids      = [data.terraform_remote_state.base.outputs.sg_ssh_from_anywhere, data.terraform_remote_state.base.outputs.sg_internet_connectivity, aws_security_group.bastion_instance.id]
   associate_public_ip_address = true
   key_name                    = data.terraform_remote_state.base.outputs.ssh_public_key_name
-  iam_instance_profile        = aws_iam_instance_profile.profile[0].name
+  iam_instance_profile        = aws_iam_instance_profile.profile.name
 
   root_block_device {
     volume_type           = "gp3"
@@ -56,17 +56,20 @@ my_awesome_cron_file
 END_OF_USERDATA
 }
 
-resource "aws_iam_instance_profile" "profile" {
-  count = var.make_instances ? 1 : 0
-  name  = "bastion_profile"
-  role  = aws_iam_role.role[0].name
+
+locals {
+  bastion_ip = var.make_instances ? "${aws_instance.bastion[0].public_ip}/32" : "1.2.3.4/32"
 }
 
-resource "aws_iam_role_policy" "policy" {
-  count = var.make_instances ? 1 : 0
-  name  = "bastion_policy"
-  role  = aws_iam_role.role[0].id
 
+resource "aws_iam_instance_profile" "profile" {
+  name  = "bastion_profile"
+  role  = aws_iam_role.role.name
+}
+
+
+resource "aws_iam_policy" "policy_0" {
+  name  = "bastion_policy"
   policy = <<EOF
 {
     "Version": "2012-10-17",
@@ -75,7 +78,8 @@ resource "aws_iam_role_policy" "policy" {
             "Sid": "ReadPrivateSshKey",
             "Effect": "Allow",
             "Action": "secretsmanager:GetSecretValue",
-            "Resource": "${data.terraform_remote_state.base.outputs.ssh_private_key_arn}"
+            "Resource": "${data.terraform_remote_state.base.outputs.ssh_private_key_arn}",
+            "Condition": {"IpAddress": {"aws:SourceIp": "${local.bastion_ip}"}}
         },
         {
             "Sid": "s3Perms",
@@ -89,7 +93,7 @@ resource "aws_iam_role_policy" "policy" {
                 "${aws_s3_bucket.results_bucket.arn}",
                 "${aws_s3_bucket.results_bucket.arn}/*"
             ],
-            "Condition": {"IpAddress": {"aws:SourceIp": "${aws_instance.bastion[0].public_ip}/32"}}
+            "Condition": {"IpAddress": {"aws:SourceIp": "${local.bastion_ip}"}}
         },
         {
             "Sid": "ec2ReadPerms",
@@ -108,7 +112,7 @@ resource "aws_iam_role_policy" "policy" {
                 "ec2:DescribeTags"
             ],
             "Resource": "*",
-            "Condition": {"IpAddress": {"aws:SourceIp": "${aws_instance.bastion[0].public_ip}/32"}}
+            "Condition": {"IpAddress": {"aws:SourceIp": "${local.bastion_ip}"}}
         },
         {
             "Sid": "ec2SpecialPerms",
@@ -121,8 +125,29 @@ resource "aws_iam_role_policy" "policy" {
                 "ec2:DeleteSnapshot"
             ],
             "Resource": "*",
-            "Condition": {"IpAddress": {"aws:SourceIp": "${aws_instance.bastion[0].public_ip}/32"}}
-        },
+            "Condition": {"IpAddress": {"aws:SourceIp": "${local.bastion_ip}"}}
+        }
+    ]
+}
+EOF
+}
+
+
+
+resource "aws_iam_role_policy_attachment" "policy_0" {
+  role       = aws_iam_role.role.name
+  policy_arn = aws_iam_policy.policy_0.arn
+}
+
+
+
+resource "aws_iam_policy" "policy_1" {
+  count = var.make_instances ? 1 : 0
+  name  = "bastion_policy"
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
         {
             "Sid": "ec2ModifyPerms",
             "Effect": "Allow",
@@ -138,26 +163,35 @@ resource "aws_iam_role_policy" "policy" {
             "Resource": [
                 "${aws_instance.centos7[0].arn}",
                 "${aws_instance.rhel8[0].arn}",
+                "${aws_instance.rhel9[0].arn}",
                 "${aws_instance.fedora35[0].arn}",
+                "${aws_instance.fedora36[0].arn}",
                 "${aws_instance.alma8[0].arn}",
+                "${aws_instance.alma9[0].arn}",
                 "${aws_instance.rocky8[0].arn}",
                 "${aws_instance.debian10[0].arn}",
                 "${aws_instance.debian11[0].arn}",
                 "${aws_instance.ubuntu18_04[0].arn}",
                 "${aws_instance.ubuntu20_04[0].arn}",
+                "${aws_instance.ubuntu22_04[0].arn}",
                 "arn:aws:ec2:*::snapshot/*",
                 "arn:aws:ec2:*:*:volume/*"
             ],
-            "Condition": {"IpAddress": {"aws:SourceIp": "${aws_instance.bastion[0].public_ip}/32"}}
+            "Condition": {"IpAddress": {"aws:SourceIp": "${local.bastion_ip}"}}
         }
     ]
 }
 EOF
-
 }
 
+resource "aws_iam_role_policy_attachment" "policy_1" {
+  count = var.make_instances ? 1 : 0
+  role       = aws_iam_role.role.name
+  policy_arn = aws_iam_policy.policy_1[0].arn
+}
+
+
 resource "aws_iam_role" "role" {
-  count              = var.make_instances ? 1 : 0
   name               = "bastion_role"
   assume_role_policy = <<EOF
 {

@@ -180,15 +180,15 @@ def restore_clean_snapshots():
             threads.append(Thread(target=restore_snapshot_to_instance,args=(snapshot,instance,"/dev/xvda")))
         elif OS == "centos7":
             threads.append(Thread(target=restore_snapshot_to_instance,args=(snapshot,instance,"/dev/sda1")))
-        elif OS == "alma8":
+        elif OS == "alma8" or OS == "alma9":
             threads.append(Thread(target=restore_snapshot_to_instance,args=(snapshot,instance,"/dev/sda1")))
         elif OS == "rocky8":
             threads.append(Thread(target=restore_snapshot_to_instance,args=(snapshot,instance,"/dev/sda1")))
-        elif OS == "rhel8":
+        elif OS == "rhel8" or OS == "rhel9":
             threads.append(Thread(target=restore_snapshot_to_instance,args=(snapshot,instance,"/dev/sda1")))
-        elif OS == "fedora35":
+        elif OS == "fedora35" or OS == "fedora36":
             threads.append(Thread(target=restore_snapshot_to_instance,args=(snapshot,instance,"/dev/sda1")))
-        elif OS == "ubuntu18_04" or OS == "ubuntu20_04" or OS == "ubuntu16_04":
+        elif OS == "ubuntu16_04" or OS == "ubuntu18_04" or OS == "ubuntu20_04" or OS == "ubuntu22_04":
             threads.append(Thread(target=restore_snapshot_to_instance,args=(snapshot,instance,"/dev/sda1")))
         else:
             # Here, just exit because it's better to know something is wrong early than to dig to figure it out why later.

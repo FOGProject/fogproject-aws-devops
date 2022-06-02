@@ -83,6 +83,8 @@ data "aws_ami" "centos7" {
   }
 }
 
+
+
 data "aws_ami" "alma8" {
   most_recent = true
   owners      = ["764336703387"]
@@ -91,6 +93,18 @@ data "aws_ami" "alma8" {
     values = ["AlmaLinux OS 8.* x86_64"]
   }
 }
+
+
+
+data "aws_ami" "alma9" {
+  most_recent = true
+  owners      = ["764336703387"]
+  filter {
+    name   = "name"
+    values = ["AlmaLinux OS 9.* x86_64"]
+  }
+}
+
 
 
 data "aws_ami" "rocky8" {
@@ -113,12 +127,32 @@ data "aws_ami" "rhel8" {
 }
 
 
+data "aws_ami" "rhel9" {
+  most_recent = true
+  owners      = ["309956199498"]
+  filter {
+    name   = "name"
+    values = ["RHEL-9.*_HVM-*-x86_64-0-Hourly2-GP2"]
+  }
+}
+
+
 data "aws_ami" "fedora35" {
   most_recent = true
   owners      = ["125523088429"]
   filter {
     name   = "name"
     values = ["Fedora-Cloud-Base-35*.x86_64-hvm-us-east-1-gp2-0"]
+  }
+}
+
+
+data "aws_ami" "fedora36" {
+  most_recent = true
+  owners      = ["125523088429"]
+  filter {
+    name   = "name"
+    values = ["Fedora-Cloud-Base-36*x86_64-hvm-us-east-1-gp2-0"]
   }
 }
 
@@ -165,6 +199,24 @@ data "aws_ami" "ubuntu20" {
   filter {
     name   = "name"
     values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
+  }
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+}
+
+
+data "aws_ami" "ubuntu22" {
+  most_recent = true
+  owners      = ["099720109477"]
+  filter {
+    name   = "name"
+    values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*"]
   }
   filter {
     name   = "virtualization-type"

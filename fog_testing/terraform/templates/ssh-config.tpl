@@ -14,9 +14,17 @@ Host fedora35
     User root
     HostName fedora35.fogtesting.cloud
     Port 22
+Host fedora36
+    User root
+    HostName fedora36.fogtesting.cloud
+    Port 22
 Host alma8
     User root
     HostName alma8.fogtesting.cloud
+    Port 22
+Host alma9
+    User root
+    HostName alma9.fogtesting.cloud
     Port 22
 Host rocky8
     User root
@@ -25,6 +33,10 @@ Host rocky8
 Host rhel8
     User root
     HostName rhel8.fogtesting.cloud
+    Port 22
+Host rhel9
+    User root
+    HostName rhel9.fogtesting.cloud
     Port 22
 Host ubuntu16_04
     User root
@@ -37,4 +49,8 @@ Host ubuntu18_04
 Host ubuntu20_04
     User root
     HostName ubuntu20_04.fogtesting.cloud
+    Port 22
+Host ubuntu22_04
+    User root
+    HostName ubuntu22_04.fogtesting.cloud
     Port 22
