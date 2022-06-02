@@ -69,7 +69,7 @@ resource "aws_iam_instance_profile" "profile" {
 
 
 resource "aws_iam_policy" "policy_0" {
-  name  = "bastion_policy"
+  name  = "bastion_policy_0"
   policy = <<EOF
 {
     "Version": "2012-10-17",
@@ -143,7 +143,7 @@ resource "aws_iam_role_policy_attachment" "policy_0" {
 
 resource "aws_iam_policy" "policy_1" {
   count = var.make_instances ? 1 : 0
-  name  = "bastion_policy"
+  name  = "bastion_policy_1"
   policy = <<EOF
 {
     "Version": "2012-10-17",
