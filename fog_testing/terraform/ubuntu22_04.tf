@@ -1,6 +1,6 @@
 resource "aws_instance" "ubuntu22_04" {
   count                       = var.make_instances  ? 1 : 0
-  ami                         = data.aws_ami.ubuntu20.id
+  ami                         = data.aws_ami.ubuntu22.id
   instance_type               = "t3.small"
   subnet_id                   = data.terraform_remote_state.base.outputs.public_subnet_a
   vpc_security_group_ids      = [aws_security_group.test_instances[0].id, data.terraform_remote_state.base.outputs.sg_internet_connectivity]
