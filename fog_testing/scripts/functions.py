@@ -488,4 +488,16 @@ def runTest(branch,OS,now,instance):
         content_file.write(log)
 
 
-
+def set_log_file_content_type_in_s3(bucket_name):
+    s3_resource = boto3.resource('s3')
+    api_client = s3_resource.meta.client
+    my_bucket = s3_resource.Bucket(bucket_name)
+    summaries = my_bucket.objects.all()
+    files = []
+    for file in summaries:
+        if ".log" in file.key:
+            api_client.copy_object(Bucket=bucket_name,
+                                            Key=file.key,
+                                            ContentType="text/plain",
+                                            MetadataDirective="REPLACE",
+                                            CopySource=bucket_name + "/" + file.key)

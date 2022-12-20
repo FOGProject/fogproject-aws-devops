@@ -180,7 +180,5 @@ subprocess.call(aws + " s3 rm  s3://" + s3bucket + " --recursive > /dev/null 2>&
 # Copy contents to the s3 dashboard
 subprocess.call(aws + " s3 cp " + webdir + "/ s3://" + s3bucket + " --recursive > /dev/null 2>&1", shell=True)
 
-
-
-
-
+# Set all files in bucket that contain ".log" in their name to text/plain content type.
+set_log_file_content_type_in_s3(s3bucket)
