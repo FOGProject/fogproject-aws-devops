@@ -38,7 +38,7 @@ red = "red.png"
 
 s3bucket = "fogtesting.fogproject.us"
 
-http = "http://"
+http = "https://"
 port = ""
 netdir = ""
 
