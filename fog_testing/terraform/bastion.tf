@@ -85,6 +85,7 @@ resource "aws_iam_policy" "policy_0" {
             "Sid": "s3Perms",
             "Effect": "Allow",
             "Action": [
+                "s3:GetObject",
                 "s3:PutObject",
                 "s3:DeleteObject",
                 "s3:ListBucket",
