@@ -172,6 +172,7 @@ def get_snapshot(name,value):
     return snapshot
 
 def restore_clean_snapshots():
+    # TODO Get this OS specific logic out of this function, and into per-os settings configuration.
     threads = []
     for OS in OSs:
         instance = get_instance("Name","fogtesting-" + OS)
@@ -186,7 +187,7 @@ def restore_clean_snapshots():
             threads.append(Thread(target=restore_snapshot_to_instance,args=(snapshot,instance,"/dev/sda1")))
         elif OS == "rhel8" or OS == "rhel9":
             threads.append(Thread(target=restore_snapshot_to_instance,args=(snapshot,instance,"/dev/sda1")))
-        elif OS == "fedora35" or OS == "fedora36":
+        elif OS == "fedora35" or OS == "fedora36" or OS == "fedora37":
             threads.append(Thread(target=restore_snapshot_to_instance,args=(snapshot,instance,"/dev/sda1")))
         elif OS == "ubuntu16_04" or OS == "ubuntu18_04" or OS == "ubuntu20_04" or OS == "ubuntu22_04":
             threads.append(Thread(target=restore_snapshot_to_instance,args=(snapshot,instance,"/dev/sda1")))

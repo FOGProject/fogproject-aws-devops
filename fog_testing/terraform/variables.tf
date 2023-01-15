@@ -161,6 +161,16 @@ data "aws_ami" "fedora36" {
 }
 
 
+data "aws_ami" "fedora37" {
+  most_recent = true
+  owners      = ["125523088429"]
+  filter {
+    name   = "name"
+    values = ["Fedora-Cloud-Base-37*x86_64-hvm-us-east-1-gp2-0"]
+  }
+}
+
+
 data "aws_ami" "ubuntu16" {
   most_recent = true
   owners      = ["099720109477"]

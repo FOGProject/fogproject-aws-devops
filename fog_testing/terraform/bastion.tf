@@ -168,6 +168,7 @@ resource "aws_iam_policy" "policy_1" {
                 "${aws_instance.rhel9[0].arn}",
                 "${aws_instance.fedora35[0].arn}",
                 "${aws_instance.fedora36[0].arn}",
+                "${aws_instance.fedora37[0].arn}",
                 "${aws_instance.alma8[0].arn}",
                 "${aws_instance.alma9[0].arn}",
                 "${aws_instance.rocky8[0].arn}",

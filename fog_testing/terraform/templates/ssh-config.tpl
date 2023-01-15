@@ -18,6 +18,10 @@ Host fedora36
     User root
     HostName fedora36.fogtesting.cloud
     Port 22
+Host fedora37
+    User root
+    HostName fedora37.fogtesting.cloud
+    Port 22
 Host alma8
     User root
     HostName alma8.fogtesting.cloud
