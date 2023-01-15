@@ -121,16 +121,6 @@ data "aws_ami" "rocky8" {
 }
 
 
-data "aws_ami" "rocky9" {
-  most_recent = true
-  owners      = ["792107900819"]
-  filter {
-    name   = "name"
-    values = ["Rocky-9-ec2*x86_64"]
-  }
-}
-
-
 data "aws_ami" "rhel8" {
   most_recent = true
   owners      = ["309956199498"]

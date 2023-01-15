@@ -34,10 +34,6 @@ Host rocky8
     User root
     HostName rocky8.fogtesting.cloud
     Port 22
-Host rocky9
-    User root
-    HostName rocky9.fogtesting.cloud
-    Port 22
 Host rhel8
     User root
     HostName rhel8.fogtesting.cloud

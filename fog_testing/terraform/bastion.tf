@@ -172,7 +172,6 @@ resource "aws_iam_policy" "policy_1" {
                 "${aws_instance.alma8[0].arn}",
                 "${aws_instance.alma9[0].arn}",
                 "${aws_instance.rocky8[0].arn}",
-                "${aws_instance.rocky9[0].arn}",
                 "${aws_instance.debian10[0].arn}",
                 "${aws_instance.debian11[0].arn}",
                 "${aws_instance.ubuntu18_04[0].arn}",
