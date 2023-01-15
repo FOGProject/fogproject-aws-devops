@@ -1,7 +1,7 @@
 # The list of OSs.
 # TODO: Make a dictionary, containing dictionaries of settings for each OS.
-OSs = ["debian10","debian11","centos7","fedora35","fedora36","fedora37","alma8","alma9","rocky8","rhel8","rhel9","ubuntu18_04","ubuntu20_04","ubuntu22_04"]
-dnsAddresses = ["debian10.fogtesting.cloud","debian11.fogtesting.cloud","centos7.fogtesting.cloud","fedora35.fogtesting.cloud","fedora36.fogtesting.cloud","fedora37.fogtesting.cloud","alma8.fogtesting.cloud","alma9.fogtesting.cloud","rocky8.fogtesting.cloud","rhel8.fogtesting.cloud","rhel9.fogtesting.cloud","ubuntu18_04.fogtesting.cloud","ubuntu20_04.fogtesting.cloud","ubuntu22_04.fogtesting.cloud"]
+OSs = ["debian10","debian11","centos7","fedora35","fedora36","fedora37","alma8","alma9","rocky8","rocky9","rhel8","rhel9","ubuntu18_04","ubuntu20_04","ubuntu22_04"]
+dnsAddresses = ["debian10.fogtesting.cloud","debian11.fogtesting.cloud","centos7.fogtesting.cloud","fedora35.fogtesting.cloud","fedora36.fogtesting.cloud","fedora37.fogtesting.cloud","alma8.fogtesting.cloud","alma9.fogtesting.cloud","rocky8.fogtesting.cloud","rocky9.fogtesting.cloud","rhel8.fogtesting.cloud","rhel9.fogtesting.cloud","ubuntu18_04.fogtesting.cloud","ubuntu20_04.fogtesting.cloud","ubuntu22_04.fogtesting.cloud"]
 
 # The list of branches to process.
 branches = ["master","dev-branch","working-1.6"]
