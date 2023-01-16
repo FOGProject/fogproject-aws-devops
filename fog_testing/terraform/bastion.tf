@@ -23,7 +23,7 @@ resource "aws_instance" "bastion" {
   }
   lifecycle {
     ignore_changes = [
-      associate_public_ip_address, ami, root_block_device[0].volume_type,
+      associate_public_ip_address, ami, root_block_device[0].volume_type, user_data
     ]
   }
 
@@ -166,7 +166,6 @@ resource "aws_iam_policy" "policy_1" {
                 "${aws_instance.centos7[0].arn}",
                 "${aws_instance.rhel8[0].arn}",
                 "${aws_instance.rhel9[0].arn}",
-                "${aws_instance.fedora35[0].arn}",
                 "${aws_instance.fedora36[0].arn}",
                 "${aws_instance.fedora37[0].arn}",
                 "${aws_instance.alma8[0].arn}",
