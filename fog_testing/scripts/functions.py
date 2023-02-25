@@ -256,6 +256,11 @@ def stop_instances():
     for os in OSs:
         instance = get_instance("Name","fogtesting-" + os)
         instance.stop()
+    for os in OSs:
+        instance = get_instance("Name","fogtesting-" + os)
+        wait_until_stopped(instance)
+
+
 
 def update_os(branch,OS,now,instance):
     # Make required directory.
