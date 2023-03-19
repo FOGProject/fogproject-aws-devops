@@ -1,5 +1,5 @@
 #!/bin/bash
 
-aws s3 ls provisioning-us-east-1-158698670377
+count=$(aws s3 ls provisioning-us-east-1-158698670377 | wc -l)
 
-echo "expecting 13"
+echo "expecting 13, got ${count}"
