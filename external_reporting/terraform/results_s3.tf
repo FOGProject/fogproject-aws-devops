@@ -12,6 +12,14 @@ resource "aws_acm_certificate" "results_certificate" {
 }
 
 
+resource "aws_acm_certificate_validation" "certificate" {
+  depends_on = [aws_route53_record.certificate]
+  certificate_arn = aws_acm_certificate.results_certificate.arn
+  validation_record_fqdns = [for record in aws_route53_record.certificate : record.fqdn]
+  provider = aws.virginia
+}
+
+
 resource "aws_route53_record" "certificate" {
   for_each = {
     for dvo in aws_acm_certificate.results_certificate.domain_validation_options : dvo.domain_name => {
