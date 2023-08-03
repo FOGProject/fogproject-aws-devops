@@ -11,6 +11,8 @@
 
 **/keep-instances-running.zip
 
+**/__pycache__/*
+
 # Crash log files
 crash.log
 
