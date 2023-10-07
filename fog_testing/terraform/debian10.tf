@@ -31,6 +31,16 @@ resource "aws_instance" "debian10" {
 #!/bin/bash
 output_log_name="debian10_provision_output.log"
 output_log_absolute_path="/root/$${output_log_name}"
+
+
+# Always use existing conf files.
+touch /etc/apt/apt.conf.d/local >> $${output_log_absolute_path} 2>&1
+echo 'Dpkg::Options {' | tee --append /etc/apt/apt.conf.d/local >> $${output_log_absolute_path} 2>&1
+echo '"--force-confdef";' | tee --append /etc/apt/apt.conf.d/local >> $${output_log_absolute_path} 2>&1
+echo '"--force-confold";' | tee --append /etc/apt/apt.conf.d/local >> $${output_log_absolute_path} 2>&1
+echo '}' | tee --append /etc/apt/apt.conf.d/local >> $${output_log_absolute_path} 2>&1
+export DEBIAN_FRONTEND=noninteractive
+
 apt-get update >> $${output_log_absolute_path} 2>&1
 apt-get -y dist-upgrade >> $${output_log_absolute_path} 2>&1
 

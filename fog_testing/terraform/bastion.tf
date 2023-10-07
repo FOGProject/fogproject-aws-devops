@@ -29,6 +29,15 @@ resource "aws_instance" "bastion" {
 
   user_data = <<END_OF_USERDATA
 #!/bin/bash
+
+# Always use existing conf files.
+touch /etc/apt/apt.conf.d/local
+echo 'Dpkg::Options {' | tee --append /etc/apt/apt.conf.d/local
+echo '"--force-confdef";' | tee --append /etc/apt/apt.conf.d/local
+echo '"--force-confold";' | tee --append /etc/apt/apt.conf.d/local
+echo '}' | tee --append /etc/apt/apt.conf.d/local
+export DEBIAN_FRONTEND=noninteractive
+
 apt-get update
 apt-get -y dist-upgrade
 apt-get -y install awscli groff python3 python3-pip git vim jq

@@ -161,22 +161,6 @@ data "aws_ami" "fedora37" {
 }
 
 
-data "aws_ami" "ubuntu16" {
-  most_recent = true
-  owners      = ["099720109477"]
-  filter {
-    name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-xenial-16.04-amd64-server-*"]
-  }
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-  filter {
-    name   = "root-device-type"
-    values = ["ebs"]
-  }
-}
 
 
 data "aws_ami" "ubuntu18" {

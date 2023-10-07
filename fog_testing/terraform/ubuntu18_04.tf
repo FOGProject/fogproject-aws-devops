@@ -31,6 +31,15 @@ resource "aws_instance" "ubuntu18_04" {
 #!/bin/bash
 output_log_name="ubuntu18_04_provision_output.log"
 output_log_absolute_path="/root/$${output_log_name}"
+
+# Always use existing conf files.
+touch /etc/apt/apt.conf.d/local >> $${output_log_absolute_path} 2>&1
+echo 'Dpkg::Options {' | tee --append /etc/apt/apt.conf.d/local >> $${output_log_absolute_path} 2>&1
+echo '"--force-confdef";' | tee --append /etc/apt/apt.conf.d/local >> $${output_log_absolute_path} 2>&1
+echo '"--force-confold";' | tee --append /etc/apt/apt.conf.d/local >> $${output_log_absolute_path} 2>&1
+echo '}' | tee --append /etc/apt/apt.conf.d/local >> $${output_log_absolute_path} 2>&1
+export DEBIAN_FRONTEND=noninteractive
+
 apt-get -y remove unattended-upgrades >> $${output_log_absolute_path} 2>&1
 apt-get update >> $${output_log_absolute_path} 2>&1
 apt-get -y upgrade >> $${output_log_absolute_path} 2>&1
