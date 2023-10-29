@@ -31,8 +31,8 @@ apt-get -y install git
 git clone https://github.com/FOGProject/fogproject-aws-devops.git
 cd fogproject-aws-devops/external_reporting/external_reporting
 
-# Next line for branch testing only.
-git checkout update_external_reporting
+# # Next line for branch testing only.
+# git checkout update_external_reporting
 
 # install server software.
 bash setup.sh
