@@ -1,6 +1,6 @@
 
 resource "aws_instance" "instance" {
-  ami                         = data.aws_ami.debian10.id
+  ami                         = data.aws_ami.debian11.id
   instance_type               = var.instance_type
   vpc_security_group_ids      = [aws_security_group.sg.id]
   associate_public_ip_address = true
