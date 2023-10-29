@@ -3,7 +3,7 @@
 # This is written to work on Debian 10 minimal.
 apt-get update
 apt-get -y remove python
-apt-get -y install apache2 libapache2-mod-wsgi-py3 python3-pip mariadb-server mariadb-client default-libmysqlclient-dev python3-mysqldb
+apt-get -y install apache2 libapache2-mod-wsgi-py3 python3-pip mariadb-server mariadb-client default-libmysqlclient-dev python3-mysqldb pkg-config
 
 
 ## If a settings file exists, back it up.
