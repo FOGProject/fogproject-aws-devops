@@ -39,7 +39,7 @@ bash setup.sh
 # Replace s3 arn in settings file.
 sed -i 's/S3_BUCKET_NAME_HERE/${aws_s3_bucket.results_bucket.id}/' /opt/external_reporting/settings.json
 # Setup HTTPS using certbot silently.
-apt-get -y install certbot python-certbot-apache
+apt-get -y install certbot python3-certbot-apache
 certbot --no-eff-email --redirect --agree-tos -w /var/www/html -d ${var.entries_name}.${data.terraform_remote_state.base.outputs.zone_name} -m ${var.letsencrypt_email}
 
 # Setup post cert renewal actions.
