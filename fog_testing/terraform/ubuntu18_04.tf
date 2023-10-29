@@ -14,6 +14,7 @@ resource "aws_instance" "ubuntu18_04" {
     tags = {
       Name = "${var.project}-ubuntu18_04"
       OS   = "ubuntu18_04"
+      project = "fogtesting"
     }
   }
 

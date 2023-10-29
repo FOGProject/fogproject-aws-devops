@@ -55,7 +55,7 @@ END_OF_USERDATA
 
 
 resource "aws_eip" "eip" {
-  vpc = true
+  domain = "vpc"
   instance = aws_instance.instance.id
   associate_with_private_ip = aws_instance.instance.private_ip
   tags = {
@@ -84,7 +84,7 @@ resource "aws_security_group" "sg" {
     from_port = 22
     to_port = 22
     protocol = "tcp"
-    cidr_blocks = ["${lookup(jsondecode(data.http.public_ip.body), "ip")}/32"]
+    cidr_blocks = ["${lookup(jsondecode(data.http.public_ip.response_body), "ip")}/32"]
   }
   egress {
     from_port = 53

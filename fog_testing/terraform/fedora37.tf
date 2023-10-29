@@ -14,6 +14,7 @@ resource "aws_instance" "fedora37" {
     tags = {
       Name = "${var.project}-fedora37"
       OS   = "fedora37"
+      project = "fogtesting"
     }
   }
 
