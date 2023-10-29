@@ -1,6 +1,6 @@
 
 resource "aws_instance" "instance" {
-  ami                         = data.aws_ami.debian10.id
+  ami                         = data.aws_ami.debian11.id
   instance_type               = var.instance_type
   vpc_security_group_ids      = [aws_security_group.sg.id]
   associate_public_ip_address = true
@@ -8,7 +8,7 @@ resource "aws_instance" "instance" {
   key_name                    = data.terraform_remote_state.base.outputs.ssh_public_key_name
   subnet_id                   = data.terraform_remote_state.base.outputs.public_subnet_a
   root_block_device {
-    volume_type           = "standard"
+    volume_type           = "gp3"
     volume_size           = 20
     delete_on_termination = true
     encrypted             = true
@@ -30,12 +30,16 @@ apt-get -y dist-upgrade
 apt-get -y install git
 git clone https://github.com/FOGProject/fogproject-aws-devops.git
 cd fogproject-aws-devops/external_reporting/external_reporting
+
+# # Next line for branch testing only.
+# git checkout update_external_reporting
+
 # install server software.
 bash setup.sh
 # Replace s3 arn in settings file.
 sed -i 's/S3_BUCKET_NAME_HERE/${aws_s3_bucket.results_bucket.id}/' /opt/external_reporting/settings.json
 # Setup HTTPS using certbot silently.
-apt-get -y install certbot python-certbot-apache
+apt-get -y install certbot python3-certbot-apache
 certbot --no-eff-email --redirect --agree-tos -w /var/www/html -d ${var.entries_name}.${data.terraform_remote_state.base.outputs.zone_name} -m ${var.letsencrypt_email}
 
 # Setup post cert renewal actions.

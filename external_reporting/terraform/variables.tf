@@ -40,12 +40,12 @@ variable "instance_type" {
   default = "t3.nano"
 }
 
-data "aws_ami" "debian10" {
+data "aws_ami" "debian11" {
   most_recent = true
   owners      = ["136693071363"]
   filter {
     name   = "name"
-    values = ["debian-10-amd64-*"]
+    values = ["debian-11-amd64*"]
   }
 }
 
