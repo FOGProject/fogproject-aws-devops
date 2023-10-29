@@ -33,5 +33,5 @@ output "zone_id" {
 
 
 module "keep_instances_on" {
-    source = "../modules/keep_instances_on"
+  source = "../modules/keep_instances_on"
 }

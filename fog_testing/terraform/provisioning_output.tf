@@ -30,7 +30,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "provisioning" {
     status = "Enabled"
     id     = "delete_old_files"
     expiration {
-        days = 2
+      days = 2
     }
   }
 }

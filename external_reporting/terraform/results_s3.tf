@@ -1,22 +1,22 @@
 provider "aws" {
-  alias = "virginia"
+  alias  = "virginia"
   region = "us-east-1"
 }
 
 
 resource "aws_acm_certificate" "results_certificate" {
-  domain_name = "${var.results_name}.${data.terraform_remote_state.base.outputs.zone_name}"
+  domain_name               = "${var.results_name}.${data.terraform_remote_state.base.outputs.zone_name}"
   subject_alternative_names = []
-  validation_method = "DNS"
-  provider = aws.virginia
+  validation_method         = "DNS"
+  provider                  = aws.virginia
 }
 
 
 resource "aws_acm_certificate_validation" "certificate" {
-  depends_on = [aws_route53_record.certificate]
-  certificate_arn = aws_acm_certificate.results_certificate.arn
+  depends_on              = [aws_route53_record.certificate]
+  certificate_arn         = aws_acm_certificate.results_certificate.arn
   validation_record_fqdns = [for record in aws_route53_record.certificate : record.fqdn]
-  provider = aws.virginia
+  provider                = aws.virginia
 }
 
 
@@ -40,7 +40,7 @@ resource "aws_route53_record" "certificate" {
 resource "aws_s3_bucket" "results_bucket" {
   bucket = "${var.results_name}.${data.terraform_remote_state.base.outputs.zone_name}"
   tags = {
-    Name    = "${var.results_name}.${data.terraform_remote_state.base.outputs.zone_name}"
+    Name = "${var.results_name}.${data.terraform_remote_state.base.outputs.zone_name}"
   }
 }
 resource "aws_s3_bucket_server_side_encryption_configuration" "results_bucket" {
@@ -106,11 +106,11 @@ resource "aws_s3_bucket_logging" "results_bucket" {
 # NOTE: the higher-level zone_id is the owned zone_id. The alias zone_ID is the s3 bucket's zone_id.
 resource "aws_route53_record" "results_record" {
   zone_id = data.terraform_remote_state.base.outputs.zone_id
-  name = "${var.results_name}.${data.terraform_remote_state.base.outputs.zone_name}"
-  type = "A"
+  name    = "${var.results_name}.${data.terraform_remote_state.base.outputs.zone_name}"
+  type    = "A"
   alias {
-    name = aws_cloudfront_distribution.s3_distribution.domain_name
-    zone_id = aws_cloudfront_distribution.s3_distribution.hosted_zone_id
+    name                   = aws_cloudfront_distribution.s3_distribution.domain_name
+    zone_id                = aws_cloudfront_distribution.s3_distribution.hosted_zone_id
     evaluate_target_health = false
   }
 }
@@ -139,7 +139,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   comment             = "Some comment"
   default_root_object = "index.html"
 
-#  aliases = ["${var.results_name}.${data.terraform_remote_state.base.outputs.zone_name}","stats.fogproject.org"]
+  #  aliases = ["${var.results_name}.${data.terraform_remote_state.base.outputs.zone_name}","stats.fogproject.org"]
   aliases = ["${var.results_name}.${data.terraform_remote_state.base.outputs.zone_name}", "fog-external-reporting-results.theworkmans.us"]
 
   default_cache_behavior {
@@ -166,7 +166,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
 
   viewer_certificate {
     acm_certificate_arn = aws_acm_certificate.results_certificate.arn
-    ssl_support_method = "sni-only"
+    ssl_support_method  = "sni-only"
   }
   restrictions {
     geo_restriction {

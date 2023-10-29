@@ -1,7 +1,7 @@
 resource "aws_s3_bucket" "log_bucket" {
   bucket = "logging-${var.region}-${data.aws_caller_identity.current.account_id}"
   tags = {
-    Name    = "logging-${var.region}-${data.aws_caller_identity.current.account_id}"
+    Name = "logging-${var.region}-${data.aws_caller_identity.current.account_id}"
   }
 }
 resource "aws_s3_bucket_server_side_encryption_configuration" "log_bucket" {
@@ -23,6 +23,6 @@ resource "aws_s3_bucket_acl" "log_bucket" {
   acl    = "private"
 }
 output "log_bucket" {
-    value = aws_s3_bucket.log_bucket.id
+  value = aws_s3_bucket.log_bucket.id
 }
 

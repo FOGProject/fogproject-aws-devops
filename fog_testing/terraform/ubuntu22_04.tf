@@ -1,5 +1,5 @@
 resource "aws_instance" "ubuntu22_04" {
-  count                       = var.make_instances  ? 1 : 0
+  count                       = var.make_instances ? 1 : 0
   ami                         = data.aws_ami.ubuntu22.id
   instance_type               = "t3.small"
   subnet_id                   = data.terraform_remote_state.base.outputs.public_subnet_a
@@ -12,8 +12,8 @@ resource "aws_instance" "ubuntu22_04" {
     volume_size           = 8
     delete_on_termination = true
     tags = {
-      Name = "${var.project}-ubuntu22_04"
-      OS   = "ubuntu22_04"
+      Name    = "${var.project}-ubuntu22_04"
+      OS      = "ubuntu22_04"
       project = "fogtesting"
     }
   }
@@ -67,7 +67,7 @@ END_OF_USERDATA
 }
 
 resource "aws_route53_record" "ubuntu22_04-dns-record" {
-  count   = var.make_instances  ? 1 : 0
+  count   = var.make_instances ? 1 : 0
   zone_id = aws_route53_zone.private-zone.zone_id
   name    = "ubuntu22_04.fogtesting.cloud"
   type    = "CNAME"

@@ -1,26 +1,26 @@
 
 resource "aws_instance" "instance" {
-  ami = data.aws_ami.debian10.id
-  instance_type = var.instance_type
-  vpc_security_group_ids = [aws_security_group.sg.id]
+  ami                         = data.aws_ami.debian10.id
+  instance_type               = var.instance_type
+  vpc_security_group_ids      = [aws_security_group.sg.id]
   associate_public_ip_address = true
-  iam_instance_profile = aws_iam_instance_profile.profile.name
-  key_name = data.terraform_remote_state.base.outputs.ssh_public_key_name
-  subnet_id = data.terraform_remote_state.base.outputs.public_subnet_a
+  iam_instance_profile        = aws_iam_instance_profile.profile.name
+  key_name                    = data.terraform_remote_state.base.outputs.ssh_public_key_name
+  subnet_id                   = data.terraform_remote_state.base.outputs.public_subnet_a
   root_block_device {
-    volume_type = "standard"
-    volume_size = 20
+    volume_type           = "standard"
+    volume_size           = 20
     delete_on_termination = true
-    encrypted = true
+    encrypted             = true
   }
   tags = {
-    Name = var.entries_name
+    Name                  = var.entries_name
     keep-instance-running = "true"
-    Snapshot = "true"
+    Snapshot              = "true"
   }
   lifecycle {
     ignore_changes = [
-        ami, user_data
+      ami, user_data
     ]
   }
   user_data = <<END_OF_USERDATA
@@ -55,8 +55,8 @@ END_OF_USERDATA
 
 
 resource "aws_eip" "eip" {
-  domain = "vpc"
-  instance = aws_instance.instance.id
+  domain                    = "vpc"
+  instance                  = aws_instance.instance.id
   associate_with_private_ip = aws_instance.instance.private_ip
   tags = {
     Name = var.entries_name
@@ -65,49 +65,49 @@ resource "aws_eip" "eip" {
 
 
 resource "aws_security_group" "sg" {
-  name = var.entries_name
+  name        = var.entries_name
   description = var.entries_name
-  vpc_id = data.terraform_remote_state.base.outputs.vpc_id
+  vpc_id      = data.terraform_remote_state.base.outputs.vpc_id
   ingress {
-    from_port = 443
-    to_port = 443
-    protocol = "tcp"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
   ingress {
-    from_port = 80
-    to_port = 80
-    protocol = "tcp"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
   ingress {
-    from_port = 22
-    to_port = 22
-    protocol = "tcp"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
     cidr_blocks = ["${lookup(jsondecode(data.http.public_ip.response_body), "ip")}/32"]
   }
   egress {
-    from_port = 53
-    to_port = 53
-    protocol = "tcp"
+    from_port   = 53
+    to_port     = 53
+    protocol    = "tcp"
     cidr_blocks = [data.terraform_remote_state.base.outputs.vpc_cidr]
   }
   egress {
-    from_port = 53
-    to_port = 53
-    protocol = "udp"
+    from_port   = 53
+    to_port     = 53
+    protocol    = "udp"
     cidr_blocks = [data.terraform_remote_state.base.outputs.vpc_cidr]
   }
   egress {
-    from_port = 80
-    to_port = 80
-    protocol = "tcp"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
   egress {
-    from_port = 443
-    to_port = 443
-    protocol = "tcp"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
   tags = {
@@ -132,8 +132,8 @@ resource "aws_iam_instance_profile" "profile" {
 
 
 resource "aws_iam_role_policy" "policy" {
-  name = var.entries_name
-  role = aws_iam_role.role.id
+  name   = var.entries_name
+  role   = aws_iam_role.role.id
   policy = <<EOF
 {
     "Version":"2012-10-17",
@@ -194,7 +194,7 @@ EOF
 }
 
 resource "aws_iam_role" "role" {
-  name = var.entries_name
+  name               = var.entries_name
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",

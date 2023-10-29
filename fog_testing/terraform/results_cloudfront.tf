@@ -1,24 +1,24 @@
 provider "aws" {
-  alias = "virginia"
+  alias  = "virginia"
   region = "us-east-1"
 }
 
 
 resource "aws_acm_certificate" "results_certificate" {
-  domain_name = "${var.project}.${data.terraform_remote_state.base.outputs.zone_name}"
+  domain_name               = "${var.project}.${data.terraform_remote_state.base.outputs.zone_name}"
   subject_alternative_names = []
-  validation_method = "DNS"
-  provider          = aws.virginia
+  validation_method         = "DNS"
+  provider                  = aws.virginia
 }
 
 
 
 
 resource "aws_acm_certificate_validation" "certificate" {
-  depends_on = [aws_route53_record.certificate]
-  certificate_arn = aws_acm_certificate.results_certificate.arn
+  depends_on              = [aws_route53_record.certificate]
+  certificate_arn         = aws_acm_certificate.results_certificate.arn
   validation_record_fqdns = [for record in aws_route53_record.certificate : record.fqdn]
-  provider = aws.virginia
+  provider                = aws.virginia
 }
 
 

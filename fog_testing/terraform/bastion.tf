@@ -13,13 +13,13 @@ resource "aws_instance" "bastion" {
     volume_size           = 8
     delete_on_termination = true
     tags = {
-      Name = "${var.project}-bastion"
+      Name    = "${var.project}-bastion"
       project = "fogtesting"
     }
   }
 
   tags = {
-    Name = "${var.project}-bastion"
+    Name                  = "${var.project}-bastion"
     keep-instance-running = "true"
   }
   lifecycle {
@@ -73,13 +73,13 @@ locals {
 
 
 resource "aws_iam_instance_profile" "profile" {
-  name  = "bastion_profile"
-  role  = aws_iam_role.role.name
+  name = "bastion_profile"
+  role = aws_iam_role.role.name
 }
 
 
 resource "aws_iam_policy" "policy_0" {
-  name  = "bastion_policy_0"
+  name   = "bastion_policy_0"
   policy = <<EOF
 {
     "Version": "2012-10-17",
@@ -154,8 +154,8 @@ resource "aws_iam_role_policy_attachment" "policy_0" {
 
 
 resource "aws_iam_policy" "policy_1" {
-  count = var.make_instances ? 1 : 0
-  name  = "bastion_policy_1"
+  count  = var.make_instances ? 1 : 0
+  name   = "bastion_policy_1"
   policy = <<EOF
 {
     "Version": "2012-10-17",
@@ -197,7 +197,7 @@ EOF
 }
 
 resource "aws_iam_role_policy_attachment" "policy_1" {
-  count = var.make_instances ? 1 : 0
+  count      = var.make_instances ? 1 : 0
   role       = aws_iam_role.role.name
   policy_arn = aws_iam_policy.policy_1[0].arn
 }
