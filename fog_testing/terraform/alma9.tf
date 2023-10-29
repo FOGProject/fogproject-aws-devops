@@ -14,6 +14,7 @@ resource "aws_instance" "alma9" {
     tags = {
       Name = "${var.project}-alma9"
       OS   = "alma9"
+      project = "fogtesting"
     }
   }
   tags = {

@@ -14,6 +14,7 @@ resource "aws_instance" "bastion" {
     delete_on_termination = true
     tags = {
       Name = "${var.project}-bastion"
+      project = "fogtesting"
     }
   }
 

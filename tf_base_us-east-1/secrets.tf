@@ -3,7 +3,7 @@ resource "random_string" "ssh_key_random_name_append" {
   length  = 4
   special = false
   lower   = true
-  number  = true
+  numeric  = true
   upper   = false
 }
 

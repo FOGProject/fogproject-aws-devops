@@ -14,6 +14,7 @@ resource "aws_instance" "debian10" {
     tags = {
       Name = "${var.project}-debian10"
       OS   = "debian10"
+      project = "fogtesting"
     }
   }
 
