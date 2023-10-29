@@ -25,6 +25,10 @@ if [[ -f /home/settings.json ]]; then
 fi
 
 
+# Work-around for mariadb pip dependency. Possibly remove this in the future.
+source mariadb_pip_workaround.sh
+
+
 pip3 install virtualenv 
 
 
