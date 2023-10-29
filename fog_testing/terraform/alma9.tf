@@ -12,8 +12,8 @@ resource "aws_instance" "alma9" {
     volume_size           = 10
     delete_on_termination = true
     tags = {
-      Name = "${var.project}-alma9"
-      OS   = "alma9"
+      Name    = "${var.project}-alma9"
+      OS      = "alma9"
       project = "fogtesting"
     }
   }
@@ -59,7 +59,7 @@ END_OF_USERDATA
 }
 
 resource "aws_route53_record" "alma9-dns-record" {
-  count   = var.make_instances  ? 1 : 0
+  count   = var.make_instances ? 1 : 0
   zone_id = aws_route53_zone.private-zone.zone_id
   name    = "alma9.fogtesting.cloud"
   type    = "CNAME"

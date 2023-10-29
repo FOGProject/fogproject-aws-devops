@@ -82,7 +82,7 @@ data "aws_ami" "centos7" {
     values = ["*centos7*"]
   }
   filter {
-    name = "architecture"
+    name   = "architecture"
     values = ["x86_64"]
   }
 }

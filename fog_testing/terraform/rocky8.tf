@@ -1,5 +1,5 @@
 resource "aws_instance" "rocky8" {
-  count                       = var.make_instances  ? 1 : 0
+  count                       = var.make_instances ? 1 : 0
   ami                         = data.aws_ami.rocky8.id
   instance_type               = "t3.small"
   subnet_id                   = data.terraform_remote_state.base.outputs.public_subnet_a
@@ -12,8 +12,8 @@ resource "aws_instance" "rocky8" {
     volume_size           = 10
     delete_on_termination = true
     tags = {
-      Name = "${var.project}-rocky8"
-      OS   = "rocky8"
+      Name    = "${var.project}-rocky8"
+      OS      = "rocky8"
       project = "fogtesting"
     }
   }
@@ -58,7 +58,7 @@ END_OF_USERDATA
 }
 
 resource "aws_route53_record" "rocky8-dns-record" {
-  count   = var.make_instances  ? 1 : 0
+  count   = var.make_instances ? 1 : 0
   zone_id = aws_route53_zone.private-zone.zone_id
   name    = "rocky8.fogtesting.cloud"
   type    = "CNAME"

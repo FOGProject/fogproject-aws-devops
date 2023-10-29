@@ -20,7 +20,7 @@ data "aws_caller_identity" "current" {}
 resource "aws_s3_bucket" "remote_state" {
   bucket = "terraform-remote-state-${data.aws_caller_identity.current.account_id}"
   tags = {
-    Name    = "terraform-remote-state-${data.aws_caller_identity.current.account_id}"
+    Name = "terraform-remote-state-${data.aws_caller_identity.current.account_id}"
   }
 }
 resource "aws_s3_bucket_logging" "remote_state" {
@@ -57,7 +57,7 @@ output "remote_state_bucket" {
 resource "aws_s3_bucket" "remote_state_logging" {
   bucket = "terraform-remote-state-logging-${data.aws_caller_identity.current.account_id}"
   tags = {
-    Name    = "terraform-remote-state-logging-${data.aws_caller_identity.current.account_id}"
+    Name = "terraform-remote-state-logging-${data.aws_caller_identity.current.account_id}"
   }
 }
 resource "aws_s3_bucket_server_side_encryption_configuration" "remote_state_logging" {

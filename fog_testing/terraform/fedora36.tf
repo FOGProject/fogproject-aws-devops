@@ -1,5 +1,5 @@
 resource "aws_instance" "fedora36" {
-  count                       = var.make_instances  ? 1 : 0
+  count                       = var.make_instances ? 1 : 0
   ami                         = data.aws_ami.fedora36.id
   instance_type               = "t3.small"
   subnet_id                   = data.terraform_remote_state.base.outputs.public_subnet_a
@@ -12,8 +12,8 @@ resource "aws_instance" "fedora36" {
     volume_size           = 8
     delete_on_termination = true
     tags = {
-      Name = "${var.project}-fedora36"
-      OS   = "fedora36"
+      Name    = "${var.project}-fedora36"
+      OS      = "fedora36"
       project = "fogtesting"
     }
   }
@@ -58,7 +58,7 @@ END_OF_USERDATA
 }
 
 resource "aws_route53_record" "fedora36-dns-record" {
-  count   = var.make_instances  ? 1 : 0
+  count   = var.make_instances ? 1 : 0
   zone_id = aws_route53_zone.private-zone.zone_id
   name    = "fedora36.fogtesting.cloud"
   type    = "CNAME"

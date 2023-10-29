@@ -1,7 +1,7 @@
 
 resource "aws_cloudwatch_event_rule" "keep-instances-running" {
-  name        = "keep-instances-running"
-  description = "keep-instances-running"
+  name          = "keep-instances-running"
+  description   = "keep-instances-running"
   event_pattern = <<PATTERN
 {
   "source": [
@@ -22,14 +22,14 @@ PATTERN
 
 resource "aws_cloudwatch_event_target" "keep-instances-running" {
   rule = aws_cloudwatch_event_rule.keep-instances-running.name
-  arn = aws_lambda_function.keep-instances-running.arn
+  arn  = aws_lambda_function.keep-instances-running.arn
 }
 
 resource "aws_lambda_permission" "keep-instances-running" {
   statement_id  = "AllowExecutionFromCloudWatch"
-  action = "lambda:InvokeFunction"
+  action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.keep-instances-running.function_name
-  principal = "events.amazonaws.com"
-  source_arn = aws_cloudwatch_event_rule.keep-instances-running.arn
+  principal     = "events.amazonaws.com"
+  source_arn    = aws_cloudwatch_event_rule.keep-instances-running.arn
 }
 

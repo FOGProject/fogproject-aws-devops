@@ -1,24 +1,24 @@
 variable "letsencrypt_email" {
-  type = string
+  type    = string
   default = "wayne.workman2012@gmail.com"
 }
 
 
 variable "entries_name" {
-  type = string
-  default = "fog-external-reporting-entries"
+  type        = string
+  default     = "fog-external-reporting-entries"
   description = "Name used for resources, must be URL naming compliant"
 }
 
 variable "results_name" {
-  type = string
-  default = "fog-external-reporting-results"
+  type        = string
+  default     = "fog-external-reporting-results"
   description = "Name used for result resources, must be URL naming compliant"
 }
 
 variable "project" {
-  type = string
-  default = "fog-external-reporting"
+  type        = string
+  default     = "fog-external-reporting"
   description = "Project name"
 }
 
@@ -36,7 +36,7 @@ data "http" "public_ip" {
 
 
 variable "instance_type" {
-  type = string
+  type    = string
   default = "t3.nano"
 }
 

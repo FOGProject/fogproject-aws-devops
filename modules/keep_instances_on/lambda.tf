@@ -1,5 +1,5 @@
 resource "aws_iam_role" "keep-instances-running" {
-  name = "keep-instances-running"
+  name               = "keep-instances-running"
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -63,9 +63,9 @@ EOF
 }
 
 data "archive_file" "lambda_zip" {
-    type        = "zip"
-    source_dir  = "${path.module}/source/"
-    output_path = "${path.module}/keep-instances-running.zip"
+  type        = "zip"
+  source_dir  = "${path.module}/source/"
+  output_path = "${path.module}/keep-instances-running.zip"
 }
 
 locals {
@@ -73,19 +73,19 @@ locals {
 }
 
 resource "aws_lambda_function" "keep-instances-running" {
-  depends_on = [data.archive_file.lambda_zip]
-  filename = "${path.module}/keep-instances-running.zip"
-  timeout = 60
-  function_name = local.function_name
-  role = aws_iam_role.keep-instances-running.arn
-  handler = "keep-instances-running.handler"
+  depends_on       = [data.archive_file.lambda_zip]
+  filename         = "${path.module}/keep-instances-running.zip"
+  timeout          = 60
+  function_name    = local.function_name
+  role             = aws_iam_role.keep-instances-running.arn
+  handler          = "keep-instances-running.handler"
   source_code_hash = data.archive_file.lambda_zip.output_base64sha256
-  runtime = "python3.8"
+  runtime          = "python3.8"
   environment {
     variables = {
       secrets_manager_email_creds_arn = aws_secretsmanager_secret.email.arn
       # extended_recipients = "wayne@theworkmans.us"
-      cloudwatch_log_group_name = aws_cloudwatch_log_group.keep-instances-running.name
+      cloudwatch_log_group_name  = aws_cloudwatch_log_group.keep-instances-running.name
       cloudwatch_log_stream_name = local.function_name
     }
   }
