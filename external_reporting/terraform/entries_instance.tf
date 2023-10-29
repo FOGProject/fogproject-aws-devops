@@ -18,11 +18,11 @@ resource "aws_instance" "instance" {
     keep-instance-running = "true"
     Snapshot              = "true"
   }
-  # lifecycle {
-  #   ignore_changes = [
-  #     ami, user_data
-  #   ]yes
-  # }
+  lifecycle {
+    ignore_changes = [
+      ami, user_data
+    ]
+  }
   user_data = <<END_OF_USERDATA
 #!/bin/bash
 apt-get update
