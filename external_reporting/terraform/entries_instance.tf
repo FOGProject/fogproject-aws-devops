@@ -8,7 +8,7 @@ resource "aws_instance" "instance" {
   key_name                    = data.terraform_remote_state.base.outputs.ssh_public_key_name
   subnet_id                   = data.terraform_remote_state.base.outputs.public_subnet_a
   root_block_device {
-    volume_type           = "standard"
+    volume_type           = "gp3"
     volume_size           = 20
     delete_on_termination = true
     encrypted             = true
@@ -18,11 +18,11 @@ resource "aws_instance" "instance" {
     keep-instance-running = "true"
     Snapshot              = "true"
   }
-  lifecycle {
-    ignore_changes = [
-      ami, user_data
-    ]
-  }
+  # lifecycle {
+  #   ignore_changes = [
+  #     ami, user_data
+  #   ]yes
+  # }
   user_data = <<END_OF_USERDATA
 #!/bin/bash
 apt-get update
