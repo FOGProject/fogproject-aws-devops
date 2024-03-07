@@ -42,6 +42,7 @@ resource "aws_route53_record" "certificate" {
 
 resource "aws_s3_bucket" "results_bucket" {
   bucket = "${var.project}.${data.terraform_remote_state.base.outputs.zone_name}"
+  force_destroy = true
   tags = {
     Name = "${var.project}.${data.terraform_remote_state.base.outputs.zone_name}"
   }
